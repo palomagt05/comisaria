@@ -42,7 +42,7 @@ Sigue estos pasos para instalar y configurar el proyecto localmente.
 
 2. Inicializa el proyecto:
      * npm init -y
-   Después de ejecutar este comando, aparecerá el archivo package.json.
+( Después de ejecutar este comando, aparecerá el archivo package.json.)
 
 3. Agrega "type": "module" debajo de "main": "index.js" en el archivo package.json.
 
