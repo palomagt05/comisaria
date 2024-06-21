@@ -2,6 +2,9 @@
 node_modules/
 package-lock.json
 logs/
+/node/node_modules/
+/react-front/node_modules/
+
 
 # React
 client/node_modules/
