@@ -24,37 +24,37 @@ Sigue estos pasos para instalar y configurar el proyecto localmente.
 ### Frontend
 
 1. Entra en la carpeta general del proyecto.
-       cd  C:/ruta/a/tu/proyecto
+      * cd  C:/ruta/a/tu/proyecto
 
 2. Crea la aplicación React en la terminal:
-      npx create-react-app react-front
+      * npx create-react-app react-front
 
 3. Entra a la carpeta de "reactfront":
-      cd reactfront
+      * cd reactfront
 
 4. Instala las dependencias necesarias:
-     npm install axios react-router-dom 
-     npm install bootstrap
+     * npm install axios react-router-dom 
+     *  npm install bootstrap
 
 ### Backend
 1. Entra en tu carpeta general y luego en la subcarpeta del backend que es la de "node". En la terminal, ejecuta lo siguiente:
-     cd C:/ruta/a/tu/proyecto/comisaria/node
+    * cd C:/ruta/a/tu/proyecto/comisaria/node
 
 2. Inicializa el proyecto:
-      npm init -y
+     * npm init -y
    Después de ejecutar este comando, aparecerá el archivo package.json.
 
 3. Agrega "type": "module" debajo de "main": "index.js" en el archivo package.json.
 
 4. Instala las dependencias necesarias:
-      npm install express cors mysql sequelize
+     * npm install express cors mysql sequelize
 
 ## Uso
 Para correr la carpeta del frontend:
 
 1. Inicia el frontend:
-      cd c:/ruta/a/tu/proyecto/comisaria/react-front
-      npm start
+     * cd c:/ruta/a/tu/proyecto/comisaria/react-front
+     * npm start
 
 ## Licencia
 Este proyecto está bajo la Licencia MIT.
@@ -62,4 +62,4 @@ Este proyecto está bajo la Licencia MIT.
 ## Clonación
 Clona este repositorio usando git bash:
 
-git clone https://github.com/palomagt05/comisaria.git
+* git clone https://github.com/palomagt05/comisaria.git
