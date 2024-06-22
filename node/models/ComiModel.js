@@ -1,5 +1,5 @@
 //importamos la conexion a ls DB
-import db from "..database/comisariaDB"
+import db from "..database/comisariaDB.js"
 
 //importamos sequelize
 import { DataTypes } from "sequelize";

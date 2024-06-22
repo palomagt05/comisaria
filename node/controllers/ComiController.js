@@ -1,5 +1,5 @@
 //importamos el Modelo
-import ComiModel from "../models/ComiModel";
+import ComiModel from "../models/ComiModel.js";
 
 //** Metodos para el CRUD **/
 
