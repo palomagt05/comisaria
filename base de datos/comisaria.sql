@@ -81,3 +81,19 @@ CREATE TABLE Investigacion (
     FOREIGN KEY (RFC_Policia) REFERENCES Policias(RFC),
     FOREIGN KEY (Codigo_Caso) REFERENCES Casos(Codigo_Caso)
 );
+-- Creación de tabla users 
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `usuario` varchar(200) NOT NULL,
+  `contrasena` varchar(100) NOT NULL,
+  `id_cargo` int(11) NOT NULL,
+  `nombre` varchar(300) NOT NULL
+)
+-- Creacion de la tabla cargos
+CREATE TABLE `cargo` (
+  `id` int(11) NOT NULL,
+  `descripcion` varchar(100) NOT NULL
+) 
+INSERT INTO `cargo` (`id`, `descripcion`) VALUES
+(1, 'Admin'),
+(2, 'policia');
