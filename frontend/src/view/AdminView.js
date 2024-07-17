@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import AddUserView from './AddUserView'; // Importa los componentes
+import AddPoliView from './AddPoliView';
+import AddArmaView from './AddArmaView';
+import AddDelincuenteView from './AddDelincuenteView';
 
 const AdminView = () => {
     const navigate = useNavigate();
+    const [view, setView] = useState('home'); // Estado para controlar la vista actual
 
     const handleLogout = () => {
         // Elimina cualquier dato de sesión aquí (por ejemplo, token)
@@ -12,14 +17,21 @@ const AdminView = () => {
         // Redirige al usuario a la página de login
         navigate('/');
     };
+
     const handleAddUser = () => {
-        navigate('/admin/add-user');
+        setView('addUser'); // Cambia la vista al componente AddUserView
     };
-    const handleAddPoli = () =>{
-        navigate('/admin/add-poli')
+
+    const handleAddPoli = () => {
+        setView('addPoli'); // Cambia la vista al componente AddPoliView
     };
-    const handleAddArma = () =>{
-        navigate('/admin/add-arma')
+
+    const handleAddArma = () => {
+        setView('addArma'); // Cambia la vista al componente AddArmaView
+    };
+
+    const handleAddDelincuente = () => {
+        setView('addDelincuente'); // Cambia la vista al componente AddDelincuenteView
     };
 
     return (
@@ -30,18 +42,22 @@ const AdminView = () => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link href="#home">Home</Nav.Link>
-                            <Nav.Link href="#profile">Perfil</Nav.Link>
+                            <Nav.Link>Perfil</Nav.Link>
                             <Nav.Link onClick={handleAddPoli}>Agregar Policías</Nav.Link>
                             <Nav.Link onClick={handleAddUser}>Agregar Usuarios</Nav.Link>
                             <Nav.Link onClick={handleAddArma}>Agregar Armas</Nav.Link>
+                            <Nav.Link onClick={handleAddDelincuente}>Agregar Delincuentes</Nav.Link>
                         </Nav>
                         <Button variant="outline-light" onClick={handleLogout}>Cerrar Sesión</Button>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
             <div>
-                <h1>Bienvenido Administrador!</h1>
+                {view === 'home' && <h1>Bienvenido Administrador!</h1>}
+                {view === 'addUser' && <AddUserView />}
+                {view === 'addPoli' && <AddPoliView />}
+                {view === 'addArma' && <AddArmaView />}
+                {view === 'addDelincuente' && <AddDelincuenteView />}
             </div>
         </div>
     );
