@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-07-2024 a las 23:49:15
+-- Tiempo de generación: 19-07-2024 a las 10:46:38
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `comisaria`
 --
+CREATE DATABASE IF NOT EXISTS `comisaria` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `comisaria`;
 
 -- --------------------------------------------------------
 
@@ -27,6 +29,7 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `armas`
 --
 
+DROP TABLE IF EXISTS `armas`;
 CREATE TABLE `armas` (
   `Codigo` varchar(10) NOT NULL,
   `Clase` varchar(50) DEFAULT NULL,
@@ -47,7 +50,8 @@ INSERT INTO `armas` (`Codigo`, `Clase`, `Nombre`) VALUES
 ('C1', 'Arma No Letal', 'Taser X26'),
 ('C2', 'Arma No Letal', 'ASP Baton'),
 ('C3', 'Arma No Letal', 'Sabre Red'),
-('D1', 'Arma Especial', 'FN Minimi');
+('D1', 'Arma Especial', 'FN Minimi'),
+('D2', 'Arma Especial', ' Taser X26');
 
 -- --------------------------------------------------------
 
@@ -55,10 +59,27 @@ INSERT INTO `armas` (`Codigo`, `Clase`, `Nombre`) VALUES
 -- Estructura de tabla para la tabla `calabozo`
 --
 
+DROP TABLE IF EXISTS `calabozo`;
 CREATE TABLE `calabozo` (
   `Codigo_Calabozo` varchar(10) NOT NULL,
-  `Ubicacion` varchar(255) DEFAULT NULL
+  `Ubicacion` varchar(400) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `calabozo`
+--
+
+INSERT INTO `calabozo` (`Codigo_Calabozo`, `Ubicacion`) VALUES
+('CAL001', 'Bloque A, Nivel 1'),
+('CAL002', 'Bloque A, Nivel 2'),
+('CAL003', 'Bloque B, Nivel 1'),
+('CAL004', 'Bloque B, Nivel 2'),
+('CAL005', 'Bloque C, Nivel 1'),
+('CAL006', 'Bloque C, Nivel 2'),
+('CAL007', 'Bloque D, Nivel 1'),
+('CAL008', 'Bloque D, Nivel 2'),
+('CAL009', 'Bloque E, Nivel 1'),
+('CAL010', 'Bloque E, Nivel 2');
 
 -- --------------------------------------------------------
 
@@ -66,6 +87,7 @@ CREATE TABLE `calabozo` (
 -- Estructura de tabla para la tabla `cargo`
 --
 
+DROP TABLE IF EXISTS `cargo`;
 CREATE TABLE `cargo` (
   `id` int(11) NOT NULL,
   `descripcion` varchar(100) NOT NULL
@@ -85,10 +107,27 @@ INSERT INTO `cargo` (`id`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `casos`
 --
 
+DROP TABLE IF EXISTS `casos`;
 CREATE TABLE `casos` (
   `Codigo_Caso` varchar(20) NOT NULL,
   `Juzgado` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `casos`
+--
+
+INSERT INTO `casos` (`Codigo_Caso`, `Juzgado`) VALUES
+('CASE001', 'Juzgado Penal 1'),
+('CASE002', 'Juzgado Penal 2'),
+('CASE003', 'Juzgado Penal 3'),
+('CASE004', 'Juzgado Penal 4'),
+('CASE005', 'Juzgado Penal 5'),
+('CASE006', 'Juzgado Penal 6'),
+('CASE007', 'Juzgado Penal 7'),
+('CASE008', 'Juzgado Penal 8'),
+('CASE009', 'Juzgado Penal 9'),
+('CASE010', 'Juzgado Penal 10');
 
 -- --------------------------------------------------------
 
@@ -96,6 +135,7 @@ CREATE TABLE `casos` (
 -- Estructura de tabla para la tabla `caso_delincuente`
 --
 
+DROP TABLE IF EXISTS `caso_delincuente`;
 CREATE TABLE `caso_delincuente` (
   `Codigo_Caso` varchar(20) NOT NULL,
   `CURP_Delincuente` varchar(400) NOT NULL,
@@ -108,6 +148,7 @@ CREATE TABLE `caso_delincuente` (
 -- Estructura de tabla para la tabla `categoriapoli`
 --
 
+DROP TABLE IF EXISTS `categoriapoli`;
 CREATE TABLE `categoriapoli` (
   `id` int(11) NOT NULL,
   `categoria_poli` varchar(200) NOT NULL
@@ -131,6 +172,7 @@ INSERT INTO `categoriapoli` (`id`, `categoria_poli`) VALUES
 -- Estructura de tabla para la tabla `delincuentes`
 --
 
+DROP TABLE IF EXISTS `delincuentes`;
 CREATE TABLE `delincuentes` (
   `CURP` varchar(400) NOT NULL,
   `Nombre` varchar(100) DEFAULT NULL,
@@ -144,6 +186,7 @@ CREATE TABLE `delincuentes` (
 -- Estructura de tabla para la tabla `delincuente_calabozo`
 --
 
+DROP TABLE IF EXISTS `delincuente_calabozo`;
 CREATE TABLE `delincuente_calabozo` (
   `CURP_Delincuente` varchar(400) NOT NULL,
   `Codigo_Calabozo` varchar(10) NOT NULL
@@ -155,6 +198,7 @@ CREATE TABLE `delincuente_calabozo` (
 -- Estructura de tabla para la tabla `habilidades`
 --
 
+DROP TABLE IF EXISTS `habilidades`;
 CREATE TABLE `habilidades` (
   `RFC_Policia` varchar(400) NOT NULL,
   `Codigo_Arma` varchar(10) NOT NULL,
@@ -167,6 +211,7 @@ CREATE TABLE `habilidades` (
 -- Estructura de tabla para la tabla `investigacion`
 --
 
+DROP TABLE IF EXISTS `investigacion`;
 CREATE TABLE `investigacion` (
   `RFC_Policia` varchar(400) NOT NULL,
   `Codigo_Caso` varchar(20) NOT NULL
@@ -178,9 +223,10 @@ CREATE TABLE `investigacion` (
 -- Estructura de tabla para la tabla `jefe`
 --
 
+DROP TABLE IF EXISTS `jefe`;
 CREATE TABLE `jefe` (
   `RFC_Jefe` varchar(400) NOT NULL,
-  `RFC_Subordinado` varchar(10) NOT NULL
+  `RFC_Subordinado` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -189,10 +235,11 @@ CREATE TABLE `jefe` (
 -- Estructura de tabla para la tabla `policias`
 --
 
+DROP TABLE IF EXISTS `policias`;
 CREATE TABLE `policias` (
   `RFC` varchar(400) NOT NULL,
   `Nombre` varchar(100) DEFAULT NULL,
-  `Categoria` varchar(50) DEFAULT NULL
+  `Categoria` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -200,7 +247,8 @@ CREATE TABLE `policias` (
 --
 
 INSERT INTO `policias` (`RFC`, `Nombre`, `Categoria`) VALUES
-('$2b$10$/O1.7MhnHchOKLFzMQpXfuXeTzLE4vMPHZps16YSP5LhjXI8Hprgq', 'Pilar Aguilar Luna', '1');
+('$2b$10$/O1.7MhnHchOKLFzMQpXfuXeTzLE4vMPHZps16YSP5LhjXI8Hprgq', 'Pilar Aguilar Luna', 1),
+('$2b$10$nMWon4hQ54yhqPAF4KdJQuOTe0/JMBEC8hPoTdKJXZ4Iv43p7umY6', 'Lopez Vazquez Adrien', 2);
 
 -- --------------------------------------------------------
 
@@ -208,6 +256,7 @@ INSERT INTO `policias` (`RFC`, `Nombre`, `Categoria`) VALUES
 -- Estructura de tabla para la tabla `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `usuario` varchar(200) NOT NULL,
@@ -300,14 +349,15 @@ ALTER TABLE `investigacion`
 -- Indices de la tabla `jefe`
 --
 ALTER TABLE `jefe`
-  ADD PRIMARY KEY (`RFC_Jefe`,`RFC_Subordinado`),
-  ADD KEY `RFC_Subordinado` (`RFC_Subordinado`);
+  ADD KEY `jefe_ibfk_1` (`RFC_Jefe`),
+  ADD KEY `jefe_ibfk_2` (`RFC_Subordinado`);
 
 --
 -- Indices de la tabla `policias`
 --
 ALTER TABLE `policias`
-  ADD PRIMARY KEY (`RFC`);
+  ADD PRIMARY KEY (`RFC`),
+  ADD KEY `Categoria` (`Categoria`);
 
 --
 -- Indices de la tabla `users`
@@ -376,6 +426,12 @@ ALTER TABLE `investigacion`
 ALTER TABLE `jefe`
   ADD CONSTRAINT `jefe_ibfk_1` FOREIGN KEY (`RFC_Jefe`) REFERENCES `policias` (`RFC`),
   ADD CONSTRAINT `jefe_ibfk_2` FOREIGN KEY (`RFC_Subordinado`) REFERENCES `policias` (`RFC`);
+
+--
+-- Filtros para la tabla `policias`
+--
+ALTER TABLE `policias`
+  ADD CONSTRAINT `Categoria` FOREIGN KEY (`Categoria`) REFERENCES `categoriapoli` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `users`
