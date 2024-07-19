@@ -7,6 +7,7 @@ import AddArmaView from './AddArmaView';
 import AddDelincuenteView from './AddDelincuenteView';
 import AssignDelincuenteView from './AssignDelincuenteView';
 import RegistroCasoView from './RegistroCasoView';
+import InsertarHabilidadView from './HabilidadView';
 const AdminView = () => {
     const navigate = useNavigate();
     const [view, setView] = useState('home'); // Estado para controlar la vista actual
@@ -40,6 +41,9 @@ const AdminView = () => {
     const handleCasoDelincuente = () => {
         setView('casoDelincuente'); // Cambia la vista al componente AddDelincuenteView
     };
+    const handleHabilidad = () => {
+        setView('habilidad'); // Cambia la vista al componente AddDelincuenteView
+    };
 
     return (
         <div>
@@ -56,6 +60,7 @@ const AdminView = () => {
                             <Nav.Link onClick={handleAddDelincuente}>Agregar Delincuentes</Nav.Link>
                             <Nav.Link onClick={handleAssingDelincuente}>Asignacion de Calabozo</Nav.Link>
                             <Nav.Link onClick={handleCasoDelincuente}>Asignacion de Juzgado</Nav.Link>
+                            <Nav.Link onClick={handleHabilidad}>Habilidad con Armas</Nav.Link>
                         </Nav>
                         <Button variant="outline-light" onClick={handleLogout}>Cerrar Sesión</Button>
                     </Navbar.Collapse>
@@ -69,6 +74,7 @@ const AdminView = () => {
                 {view === 'addDelincuente' && <AddDelincuenteView />}
                 {view === 'assingDelincuente' && <AssignDelincuenteView/>}
                 {view === 'casoDelincuente' && <RegistroCasoView/>}
+                {view === 'habilidad' && <InsertarHabilidadView/>}
             </div>
         </div>
     );
