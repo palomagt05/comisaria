@@ -7,6 +7,7 @@ const addpoliRoutes = require('./routes/poliRoutes');
 const addarmaRoutes = require('./routes/armaRoutes');
 const adddeliRoutes = require('./routes/delicuenteRoutes')
 const delincuenteCalabozoRoutes = require('./routes/delincuenteCalabozoRoutes');
+const casoRoutes = require('./routes/casoRoutes')
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use('/addpoli', addpoliRoutes);
 app.use('/addarma', addarmaRoutes);
 app.use('/adddelincuente',adddeliRoutes);
 app.use('/delincuente-calabozo', delincuenteCalabozoRoutes);
+app.use('/delincuente-caso',casoRoutes);
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');
