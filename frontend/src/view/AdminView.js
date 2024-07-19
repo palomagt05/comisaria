@@ -8,6 +8,8 @@ import AddDelincuenteView from './AddDelincuenteView';
 import AssignDelincuenteView from './AssignDelincuenteView';
 import RegistroCasoView from './RegistroCasoView';
 import InsertarHabilidadView from './HabilidadView';
+import InsertarInvestigacionView from './InvestigacionView';
+
 const AdminView = () => {
     const navigate = useNavigate();
     const [view, setView] = useState('home'); // Estado para controlar la vista actual
@@ -21,30 +23,32 @@ const AdminView = () => {
     };
 
     const handleAddUser = () => {
-        setView('addUser'); // Cambia la vista al componente AddUserView
+        setView('addUser'); 
     };
 
     const handleAddPoli = () => {
-        setView('addPoli'); // Cambia la vista al componente AddPoliView
+        setView('addPoli'); 
     };
 
     const handleAddArma = () => {
-        setView('addArma'); // Cambia la vista al componente AddArmaView
+        setView('addArma'); 
     };
 
     const handleAddDelincuente = () => {
-        setView('addDelincuente'); // Cambia la vista al componente AddDelincuenteView
+        setView('addDelincuente'); 
     };
     const handleAssingDelincuente = () => {
-        setView('assingDelincuente'); // Cambia la vista al componente AddDelincuenteView
+        setView('assingDelincuente'); 
     };
     const handleCasoDelincuente = () => {
-        setView('casoDelincuente'); // Cambia la vista al componente AddDelincuenteView
+        setView('casoDelincuente'); 
     };
     const handleHabilidad = () => {
-        setView('habilidad'); // Cambia la vista al componente AddDelincuenteView
+        setView('habilidad'); 
     };
-
+    const handleinvestigacion = () => {
+        setView('investigacion'); 
+    };
     return (
         <div>
             <Navbar bg="dark" variant="dark" expand="lg">
@@ -60,7 +64,8 @@ const AdminView = () => {
                             <Nav.Link onClick={handleAddDelincuente}>Agregar Delincuentes</Nav.Link>
                             <Nav.Link onClick={handleAssingDelincuente}>Asignacion de Calabozo</Nav.Link>
                             <Nav.Link onClick={handleCasoDelincuente}>Asignacion de Juzgado</Nav.Link>
-                            <Nav.Link onClick={handleHabilidad}>Habilidad con Armas</Nav.Link>
+                            <Nav.Link onClick={handleinvestigacion}>Investigación</Nav.Link>
+
                         </Nav>
                         <Button variant="outline-light" onClick={handleLogout}>Cerrar Sesión</Button>
                     </Navbar.Collapse>
@@ -75,6 +80,7 @@ const AdminView = () => {
                 {view === 'assingDelincuente' && <AssignDelincuenteView/>}
                 {view === 'casoDelincuente' && <RegistroCasoView/>}
                 {view === 'habilidad' && <InsertarHabilidadView/>}
+                {view === 'investigacion' && <InsertarInvestigacionView/>}
             </div>
         </div>
     );
