@@ -10,6 +10,7 @@ import AddPoliView from './view/AddPoliView';
 import AddArmaView from './view/AddArmaView';
 import AddDelincuenteView from './view/AddDelincuenteView';
 import AssignDelincuenteView from './view/AssignDelincuenteView';
+import RegistroCasoView from './view/RegistroCasoView';
 
 const App = () => {
     return (
@@ -23,6 +24,7 @@ const App = () => {
                 <Route path="/admin/add-arma" element={<ProtectedRoute element={<AddArmaView />} />} />
                 <Route path="/admin/add-delincuente" element={<ProtectedRoute element={<AddDelincuenteView />} />} />
                 <Route path="/admin/assign-delincuente" element={<ProtectedRoute element={<AssignDelincuenteView />} />} />
+                <Route path="/admin/register-case" element={<ProtectedRoute element={<RegistroCasoView />} />} />
             </Routes>
         </Router>
     );
