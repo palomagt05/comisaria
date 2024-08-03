@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-07-2024 a las 10:46:38
+-- Tiempo de generación: 03-08-2024 a las 08:40:45
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,6 +37,10 @@ CREATE TABLE `armas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- RELACIONES PARA LA TABLA `armas`:
+--
+
+--
 -- Volcado de datos para la tabla `armas`
 --
 
@@ -51,7 +55,8 @@ INSERT INTO `armas` (`Codigo`, `Clase`, `Nombre`) VALUES
 ('C2', 'Arma No Letal', 'ASP Baton'),
 ('C3', 'Arma No Letal', 'Sabre Red'),
 ('D1', 'Arma Especial', 'FN Minimi'),
-('D2', 'Arma Especial', ' Taser X26');
+('D2', 'Arma Especial', ' Taser X26'),
+('D3', 'Arma Especial', 'TAC-2000)');
 
 -- --------------------------------------------------------
 
@@ -64,6 +69,10 @@ CREATE TABLE `calabozo` (
   `Codigo_Calabozo` varchar(10) NOT NULL,
   `Ubicacion` varchar(400) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELACIONES PARA LA TABLA `calabozo`:
+--
 
 --
 -- Volcado de datos para la tabla `calabozo`
@@ -94,6 +103,10 @@ CREATE TABLE `cargo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- RELACIONES PARA LA TABLA `cargo`:
+--
+
+--
 -- Volcado de datos para la tabla `cargo`
 --
 
@@ -110,24 +123,28 @@ INSERT INTO `cargo` (`id`, `descripcion`) VALUES
 DROP TABLE IF EXISTS `casos`;
 CREATE TABLE `casos` (
   `Codigo_Caso` varchar(20) NOT NULL,
-  `Juzgado` varchar(100) DEFAULT NULL
+  `Juzgado` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELACIONES PARA LA TABLA `casos`:
+--
 
 --
 -- Volcado de datos para la tabla `casos`
 --
 
 INSERT INTO `casos` (`Codigo_Caso`, `Juzgado`) VALUES
-('CASE001', 'Juzgado Penal 1'),
-('CASE002', 'Juzgado Penal 2'),
-('CASE003', 'Juzgado Penal 3'),
-('CASE004', 'Juzgado Penal 4'),
-('CASE005', 'Juzgado Penal 5'),
-('CASE006', 'Juzgado Penal 6'),
-('CASE007', 'Juzgado Penal 7'),
-('CASE008', 'Juzgado Penal 8'),
-('CASE009', 'Juzgado Penal 9'),
-('CASE010', 'Juzgado Penal 10');
+('CASE001', 'JP1'),
+('CASE002', 'JP2'),
+('CASE003', 'JP3'),
+('CASE004', 'JP4'),
+('CASE005', 'JP5'),
+('CASE006', 'JP6'),
+('CASE007', 'JP7'),
+('CASE008', 'JP8'),
+('CASE009', 'JP9'),
+('CASE010', 'JP10');
 
 -- --------------------------------------------------------
 
@@ -139,8 +156,26 @@ DROP TABLE IF EXISTS `caso_delincuente`;
 CREATE TABLE `caso_delincuente` (
   `Codigo_Caso` varchar(20) NOT NULL,
   `CURP_Delincuente` varchar(400) NOT NULL,
-  `Principal_Cargo` varchar(100) DEFAULT NULL
+  `Juzgado` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELACIONES PARA LA TABLA `caso_delincuente`:
+--   `Codigo_Caso`
+--       `casos` -> `Codigo_Caso`
+--   `CURP_Delincuente`
+--       `delincuentes` -> `CURP`
+--   `Juzgado`
+--       `casos` -> `Juzgado`
+--
+
+--
+-- Volcado de datos para la tabla `caso_delincuente`
+--
+
+INSERT INTO `caso_delincuente` (`Codigo_Caso`, `CURP_Delincuente`, `Juzgado`) VALUES
+('CASE001', '$2b$10$XEHaH1k8t9MDlFAF4V.QGexMosp2IvKQ.pxXnq/ByjYtn7impjVg.', 'JP1'),
+('CASE004', '$2b$10$7EM9gczHDTG87H/Ni5z6xup.ckDTrgAxkrBWafgkmiguHZH3KCQj2', 'JP4');
 
 -- --------------------------------------------------------
 
@@ -155,6 +190,10 @@ CREATE TABLE `categoriapoli` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- RELACIONES PARA LA TABLA `categoriapoli`:
+--
+
+--
 -- Volcado de datos para la tabla `categoriapoli`
 --
 
@@ -164,7 +203,8 @@ INSERT INTO `categoriapoli` (`id`, `categoria_poli`) VALUES
 (3, 'Policia Ministerial'),
 (4, 'Policia Vial'),
 (5, 'Policia Turistica'),
-(6, 'Policia Auxiliar ');
+(6, 'Policia Auxiliar '),
+(7, 'Administrador');
 
 -- --------------------------------------------------------
 
@@ -180,6 +220,18 @@ CREATE TABLE `delincuentes` (
   `Direccion` varchar(400) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- RELACIONES PARA LA TABLA `delincuentes`:
+--
+
+--
+-- Volcado de datos para la tabla `delincuentes`
+--
+
+INSERT INTO `delincuentes` (`CURP`, `Nombre`, `Telefono`, `Direccion`) VALUES
+('$2b$10$7EM9gczHDTG87H/Ni5z6xup.ckDTrgAxkrBWafgkmiguHZH3KCQj2', 'Fernandez Lopez Luka', '2211445566', '$2b$10$3UaVV2cpEA4ROP/XdfxysOmDXN4.ghgIxHPRWVkJhvlf9AoABGXya'),
+('$2b$10$XEHaH1k8t9MDlFAF4V.QGexMosp2IvKQ.pxXnq/ByjYtn7impjVg.', 'Fernandez lopez Nino', '2225262877', '$2b$10$6kdg.pywv1ZjWyTabW4p1.izVuftJuABJWpte1NoMyAPVldaWeKq2');
+
 -- --------------------------------------------------------
 
 --
@@ -191,6 +243,22 @@ CREATE TABLE `delincuente_calabozo` (
   `CURP_Delincuente` varchar(400) NOT NULL,
   `Codigo_Calabozo` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELACIONES PARA LA TABLA `delincuente_calabozo`:
+--   `CURP_Delincuente`
+--       `delincuentes` -> `CURP`
+--   `Codigo_Calabozo`
+--       `calabozo` -> `Codigo_Calabozo`
+--
+
+--
+-- Volcado de datos para la tabla `delincuente_calabozo`
+--
+
+INSERT INTO `delincuente_calabozo` (`CURP_Delincuente`, `Codigo_Calabozo`) VALUES
+('$2b$10$7EM9gczHDTG87H/Ni5z6xup.ckDTrgAxkrBWafgkmiguHZH3KCQj2', 'CAL004'),
+('$2b$10$XEHaH1k8t9MDlFAF4V.QGexMosp2IvKQ.pxXnq/ByjYtn7impjVg.', 'CAL001');
 
 -- --------------------------------------------------------
 
@@ -205,6 +273,14 @@ CREATE TABLE `habilidades` (
   `Habilidad` int(11) DEFAULT NULL CHECK (`Habilidad` between 1 and 10)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- RELACIONES PARA LA TABLA `habilidades`:
+--   `RFC_Policia`
+--       `policias` -> `RFC`
+--   `Codigo_Arma`
+--       `armas` -> `Codigo`
+--
+
 -- --------------------------------------------------------
 
 --
@@ -216,6 +292,14 @@ CREATE TABLE `investigacion` (
   `RFC_Policia` varchar(400) NOT NULL,
   `Codigo_Caso` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELACIONES PARA LA TABLA `investigacion`:
+--   `RFC_Policia`
+--       `policias` -> `RFC`
+--   `Codigo_Caso`
+--       `casos` -> `Codigo_Caso`
+--
 
 -- --------------------------------------------------------
 
@@ -229,6 +313,14 @@ CREATE TABLE `jefe` (
   `RFC_Subordinado` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- RELACIONES PARA LA TABLA `jefe`:
+--   `RFC_Jefe`
+--       `policias` -> `RFC`
+--   `RFC_Subordinado`
+--       `policias` -> `RFC`
+--
+
 -- --------------------------------------------------------
 
 --
@@ -238,17 +330,23 @@ CREATE TABLE `jefe` (
 DROP TABLE IF EXISTS `policias`;
 CREATE TABLE `policias` (
   `RFC` varchar(400) NOT NULL,
-  `Nombre` varchar(100) DEFAULT NULL,
+  `Nombre` varchar(100) NOT NULL,
   `Categoria` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELACIONES PARA LA TABLA `policias`:
+--   `Categoria`
+--       `categoriapoli` -> `id`
+--
 
 --
 -- Volcado de datos para la tabla `policias`
 --
 
 INSERT INTO `policias` (`RFC`, `Nombre`, `Categoria`) VALUES
-('$2b$10$/O1.7MhnHchOKLFzMQpXfuXeTzLE4vMPHZps16YSP5LhjXI8Hprgq', 'Pilar Aguilar Luna', 1),
-('$2b$10$nMWon4hQ54yhqPAF4KdJQuOTe0/JMBEC8hPoTdKJXZ4Iv43p7umY6', 'Lopez Vazquez Adrien', 2);
+('$2b$10$3gFlP6rrTChR6iy6wVqaw.VnzSstmJMXrwCAF5uuOuJEf.72.jIoW', 'Paloma Garcia Tellez', 1),
+('$2b$10$IiAqDzQqP1JH3x9weolHC.gkB2vgxLj4psbPPImaQGSS3mWRmzBw6', 'Alondra Abigail Garcia Tellez', 7);
 
 -- --------------------------------------------------------
 
@@ -262,8 +360,16 @@ CREATE TABLE `users` (
   `usuario` varchar(200) NOT NULL,
   `contrasena` varchar(400) NOT NULL,
   `id_cargo` int(11) NOT NULL,
-  `nombre` varchar(300) NOT NULL
+  `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- RELACIONES PARA LA TABLA `users`:
+--   `id_cargo`
+--       `cargo` -> `id`
+--   `nombre`
+--       `policias` -> `Nombre`
+--
 
 --
 -- Volcado de datos para la tabla `users`
@@ -271,11 +377,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `usuario`, `contrasena`, `id_cargo`, `nombre`) VALUES
 (4, 'alo2611', '$2b$10$77fkQpTzVygxIa.9Euyc/.LWlx3nn1encMT.2AjxdH81NN7Dmrq2W', 1, 'Alondra Abigail Garcia Tellez'),
-(5, 'ameli0512', '$2b$10$tgChxaO/70cKswip551P0.OEWBx5JhrHdJ/EyKHSCy361fGH4SlAO', 2, 'Ameli Garcia Tellez'),
-(6, 'paloma1205', '$2b$10$wgNCCwC6.i6ngPcv1I4DR.ibC0.WYkvEI4ldvXnYOuBfOLAYWghme', 2, 'Paloma Garcia Tellez'),
-(7, 'America21', '$2b$10$W61NkIEHmS1omI5JjFOxH.UWJpPbyuWaE6ZT6pzV4gGlI2YN3IzF6', 2, 'America Mariel Roja Onofre'),
-(8, 'axel2052', '$2b$10$XzyoU9DjMIzhm48blZRcX.FkVBddnBLR93uUCybEs0nnbo2QG6G2a', 2, 'Axel Abraham Manzanilla Vazquez'),
-(10, 'pilar3425', '$2b$10$qfKmM6eChfm71PMHQNzcq.eRcbeCqmhWja2ITneI7fA7zpEq47zYW', 2, 'Pilar Elisama Luna Aguilar ');
+(14, 'paloma1205', '$2b$10$WYq21K0l.CbksVT0G9xQM.laKkwQOojJivrbxPQcwp5Sde38bgaRm', 2, 'Paloma Garcia Tellez');
 
 --
 -- Índices para tablas volcadas
@@ -303,13 +405,15 @@ ALTER TABLE `cargo`
 -- Indices de la tabla `casos`
 --
 ALTER TABLE `casos`
-  ADD PRIMARY KEY (`Codigo_Caso`);
+  ADD PRIMARY KEY (`Codigo_Caso`,`Juzgado`),
+  ADD UNIQUE KEY `Juzgado` (`Juzgado`);
 
 --
 -- Indices de la tabla `caso_delincuente`
 --
 ALTER TABLE `caso_delincuente`
   ADD PRIMARY KEY (`Codigo_Caso`,`CURP_Delincuente`),
+  ADD UNIQUE KEY `Juzgado` (`Juzgado`) USING BTREE,
   ADD KEY `CURP_Delincuente` (`CURP_Delincuente`);
 
 --
@@ -356,7 +460,8 @@ ALTER TABLE `jefe`
 -- Indices de la tabla `policias`
 --
 ALTER TABLE `policias`
-  ADD PRIMARY KEY (`RFC`),
+  ADD PRIMARY KEY (`RFC`,`Nombre`),
+  ADD UNIQUE KEY `Nombre` (`Nombre`),
   ADD KEY `Categoria` (`Categoria`);
 
 --
@@ -364,6 +469,7 @@ ALTER TABLE `policias`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nombre` (`nombre`) USING BTREE,
   ADD KEY `id_cargo` (`id_cargo`);
 
 --
@@ -380,13 +486,13 @@ ALTER TABLE `cargo`
 -- AUTO_INCREMENT de la tabla `categoriapoli`
 --
 ALTER TABLE `categoriapoli`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas
@@ -397,7 +503,8 @@ ALTER TABLE `users`
 --
 ALTER TABLE `caso_delincuente`
   ADD CONSTRAINT `caso_delincuente_ibfk_1` FOREIGN KEY (`Codigo_Caso`) REFERENCES `casos` (`Codigo_Caso`),
-  ADD CONSTRAINT `caso_delincuente_ibfk_2` FOREIGN KEY (`CURP_Delincuente`) REFERENCES `delincuentes` (`CURP`);
+  ADD CONSTRAINT `caso_delincuente_ibfk_2` FOREIGN KEY (`CURP_Delincuente`) REFERENCES `delincuentes` (`CURP`),
+  ADD CONSTRAINT `caso_delincuente_ibfk_3` FOREIGN KEY (`Juzgado`) REFERENCES `casos` (`Juzgado`);
 
 --
 -- Filtros para la tabla `delincuente_calabozo`
@@ -437,7 +544,8 @@ ALTER TABLE `policias`
 -- Filtros para la tabla `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id_cargo`) REFERENCES `cargo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id_cargo`) REFERENCES `cargo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `users_ibfk_3` FOREIGN KEY (`nombre`) REFERENCES `policias` (`Nombre`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
