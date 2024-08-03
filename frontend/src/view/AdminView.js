@@ -9,6 +9,7 @@ import AssignDelincuenteView from './AssignDelincuenteView';
 import RegistroCasoView from './RegistroCasoView';
 import InsertarHabilidadView from './HabilidadView';
 import InsertarInvestigacionView from './InvestigacionView';
+import InsertarJefeView from './InsertarJefeView';
 
 const AdminView = () => {
     const navigate = useNavigate();
@@ -49,6 +50,9 @@ const AdminView = () => {
     const handleinvestigacion = () => {
         setView('investigacion'); 
     };
+    const handlejefe = () => {
+        setView('jefe'); 
+    };
     return (
         <div>
             <Navbar bg="dark" variant="dark" expand="lg">
@@ -64,7 +68,9 @@ const AdminView = () => {
                             <Nav.Link onClick={handleAddDelincuente}>Agregar Delincuentes</Nav.Link>
                             <Nav.Link onClick={handleAssingDelincuente}>Asignacion de Calabozo</Nav.Link>
                             <Nav.Link onClick={handleCasoDelincuente}>Asignacion de Juzgado</Nav.Link>
+                            <Nav.Link onClick={handleHabilidad}>Asignacion de Habilidad Con Armas</Nav.Link>
                             <Nav.Link onClick={handleinvestigacion}>Investigación</Nav.Link>
+                            <Nav.Link onClick={handlejefe}>Asignación de Jefe</Nav.Link>
 
                         </Nav>
                         <Button variant="outline-light" onClick={handleLogout}>Cerrar Sesión</Button>
@@ -81,6 +87,7 @@ const AdminView = () => {
                 {view === 'casoDelincuente' && <RegistroCasoView/>}
                 {view === 'habilidad' && <InsertarHabilidadView/>}
                 {view === 'investigacion' && <InsertarInvestigacionView/>}
+                {view === 'jefe' && <InsertarJefeView/>}
             </div>
         </div>
     );
