@@ -21,9 +21,9 @@ const login = async (req, res) => {
 
             let message = '';
             if (id_cargo === 1) {
-                message = `Hola admin, ${nombre}`;
+                message = `Hola administrador, ${nombre}`;
             } else if (id_cargo === 2) {
-                message = `Hola poli, ${nombre}`;
+                message = `Hola policia, ${nombre}`;
             }
 
             return res.status(200).json({ message, role: id_cargo, token });
