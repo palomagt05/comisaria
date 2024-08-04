@@ -6,5 +6,6 @@ const addController = require('../controllers/armaController');
 
 // Ruta para agregar usuarios
 router.post('/arma/add', addController.addArma);
+router.get('/arma',addController.getArmas);
 
 module.exports = router;
