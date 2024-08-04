@@ -6,6 +6,8 @@ const AddArmaView = () => {
     const [clase, setclase] = useState('');
     const [name, setName] = useState('');
     const [error, setError] = useState('');
+    const [armas, setArmas] = useState([]);
+    const [showTable, setShowTable] = useState(false);
 
     const navigate = useNavigate();  // Hook para la navegación
 
@@ -46,6 +48,27 @@ const AddArmaView = () => {
             console.error('Error:', error);
             setError('An error occurred while adding the user');
         }
+    };
+    const fetchArmas = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/addarma/arma');
+            const data = await response.json();
+
+            if (response.ok) {
+                setArmas(data);
+            } else {
+                setError('Failed to fetch armas');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError('An error occurred while fetching armas');
+        }
+    };
+    const handleShowArmas = () => {
+        if (!showTable) {
+            fetchArmas();
+        }
+        setShowTable(!showTable);
     };
 
     return (
@@ -89,12 +112,44 @@ const AddArmaView = () => {
                 </div>
                 <button type="submit" className="btn btn-primary">Agregar Arma</button>
             </form>
-            <button
-                onClick={() => navigate('/admin')}
-                className="btn btn-secondary mt-3"
-            >
-                Regresar
-            </button>
+            <div className="d-flex justify-content-between mt-3">
+                <button
+                    onClick={handleShowArmas}
+                    className="btn btn-info mt-3"
+                >
+                     {showTable ? 'Ocultar Armas Registradas' : 'Ver Armas Registradas'}
+                </button>
+
+                <button
+                    onClick={() => navigate('/admin')}
+                    className="btn btn-secondary mt-3"
+                >
+                    Regresar
+                </button>
+            </div>
+            {showTable && (
+                <div className="mt-4">
+                    <h3>Armas Registradas</h3>
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Clase</th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {armas.map((arma, index) => (
+                                <tr key={index}>
+                                    <td>{arma.Codigo}</td>
+                                    <td>{arma.Clase}</td>
+                                    <td>{arma.Nombre}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </div>
     );
 };
