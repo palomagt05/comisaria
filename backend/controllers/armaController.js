@@ -15,8 +15,19 @@ const addArma = async (req, res) => {
         res.status(500).json({ message: 'Error al agregar', error });
     }
 };
+const getArmas = async (req, res) => {
+    try {
+        const query = `SELECT Codigo, Clase, Nombre FROM armas`;
+        const [rows] = await connection.execute(query);
+
+        res.status(200).json(rows);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener armas', error });
+    }
+};
 
 module.exports = {
     addArma,
+    getArmas,
     // ... otros controladores
 };
