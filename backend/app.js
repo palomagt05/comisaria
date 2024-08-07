@@ -11,6 +11,7 @@ const casoRoutes = require('./routes/casoRoutes');
 const habilidadRoutes = require('./routes/habilidadesRoutes');
 const investigacionRoutes = require('./routes/investigacionRoutes');
 const jefesRoutes = require('./routes/jefesRoutes');
+const busqueda = require('./routes/busquedaRoutes')
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use('/delincuente-caso',casoRoutes);
 app.use('/habilidades-poli',habilidadRoutes);
 app.use('/api', investigacionRoutes);
 app.use('/insertarj', jefesRoutes);
+app.use('/delincuentes', busqueda)
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');
