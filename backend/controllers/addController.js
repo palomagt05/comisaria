@@ -28,8 +28,18 @@ const addUser = async (req, res) => {
         res.status(500).json({ message: 'Error al agregar usuario', error });
     }
 };
+const getUsers = async (req, res) => {
+    try {
+        const query = 'SELECT usuario, nombre, id_cargo FROM users';
+        const [rows] = await connection.execute(query);
 
+        res.status(200).json(rows);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener los usuarios', error });
+    }
+};
 module.exports = {
     addUser,
+    getUsers,
     // ... otros controladores
 };
