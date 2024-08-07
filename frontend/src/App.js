@@ -14,6 +14,7 @@ import RegistroCasoView from './view/RegistroCasoView';
 import InsertarHabilidadView from './view/HabilidadView';
 import InsertarInvestigacionView from './view/InvestigacionView';
 import InsertarJefeView from './view/InsertarJefeView';
+import SearchDelincuentesView from './view/BusquedaView';
 
 const App = () => {
     return (
@@ -31,6 +32,7 @@ const App = () => {
                 <Route path="/admin/insertar-habilidad" element={<ProtectedRoute element={<InsertarHabilidadView />} />} />
                 <Route path="/admin/insertar-investigacion" element={<ProtectedRoute element={<InsertarInvestigacionView/>} />} />
                 <Route path="/admin/insertar-jefe" element={<ProtectedRoute element={<InsertarJefeView/>} />} />
+                <Route path="/policia/search-delincuente" element={<ProtectedRoute element={<SearchDelincuentesView/>}/>}/>
             </Routes>
         </Router>
     );
