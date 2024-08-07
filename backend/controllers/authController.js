@@ -1,8 +1,8 @@
 const db = require('../database');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt'); // Importa bcrypt
+const bcrypt = require('bcrypt'); 
 
-const secretKey = 'KKMJPKJAY'; // Reemplaza esto con una clave secreta segura
+const secretKey = 'KKMJPKJAY'; 
 
 const login = async (req, res) => {
     const { usuario, contrasena } = req.body;
@@ -11,12 +11,11 @@ const login = async (req, res) => {
     try {
         const [rows] = await db.query('SELECT * FROM users WHERE usuario = ?', [usuario]);
         const user = rows[0];
-        console.log('Usuario encontrado en la base de datos:', user);
+        console.log('Usuario encontrado en la base de datos');
 
-        if (user && await bcrypt.compare(contrasena, user.contrasena)) { // Compara la contraseña encriptada
+        if (user && await bcrypt.compare(contrasena, user.contrasena)) { 
             const { id_cargo, nombre } = user;
 
-            // Genera un token JWT
             const token = jwt.sign({ id_cargo, nombre }, secretKey, { expiresIn: '1h' });
 
             let message = '';
