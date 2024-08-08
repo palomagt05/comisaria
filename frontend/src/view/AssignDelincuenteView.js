@@ -7,6 +7,9 @@ const AssignDelincuenteView = () => {
     const [Codigo_Calabozo, setCodigo_Calabozo] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [showTable, setShowTable] = useState(false); 
+    const [delincuente, setdelincuente] = useState([]);
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -28,6 +31,28 @@ const AssignDelincuenteView = () => {
         } catch (error) {
             setError('Error al asignar el delincuente al calabozo');
         }
+    };
+    const fetchdelincuente = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/adddelincuente/delincuente');
+            const data = await response.json();
+
+            if (response.ok) {
+                setdelincuente(data);
+            } else {
+                setError('Falló en buscar los delincuente');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError('se produjo un error al buscar delincuente');
+        }
+    };
+
+    const handleShowdelincuente = () => {
+        if (!showTable) {
+            fetchdelincuente();
+        }
+        setShowTable(!showTable);
     };
 
     return (
@@ -69,12 +94,44 @@ const AssignDelincuenteView = () => {
                 </div>
                 <button type="submit" className="btn btn-primary">Asignar</button>
             </form>
-            <button
-                onClick={() => navigate('/admin')}
-                className="btn btn-secondary mt-3"
-            >
-                Regresar
-            </button>
+            <div className="d-flex justify-content-between mt-3">
+                 <button
+                    onClick={handleShowdelincuente}
+                    className="btn btn-primary mt-3"
+                 >
+                    {showTable ? 'Ocultar Delincuentes Registrados' : 'Ver Delincuentes Registrados'}
+                </button>
+                <button
+                    onClick={() => navigate('/admin')}
+                    className="btn btn-secondary mt-3"
+                >
+                    Regresar
+                </button>
+            </div>
+            <div className="row">
+                {showTable && (
+                    <div className="col-md-6 mt-4">
+                        <h3>Delincuentes Registrados</h3>
+                        <table className="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>CURP</th>
+                                    <th>Nombre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {delincuente.map((delincuente, index) => (
+                                    <tr key={index}>
+                                        <td>{delincuente.CURP}</td>
+                                        <td>{delincuente.Nombre}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </div>
+
         </div>
     );
 };

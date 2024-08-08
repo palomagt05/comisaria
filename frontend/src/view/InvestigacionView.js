@@ -7,6 +7,9 @@ const InsertarInvestigacionView = () => {
     const [codigoCaso, setCodigoCaso] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [showTable, setShowTable] = useState(false); 
+    const [policias, setPolicias] = useState([]);
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -27,6 +30,36 @@ const InsertarInvestigacionView = () => {
             }
         } catch (error) {
             setError('Error al insertar la investigación');
+        }
+    };
+    const fetchPolicias = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/addpoli/policias');
+            const data = await response.json();
+    
+            if (response.ok) {
+                // Filtrar los policías para que solo queden los de categoría Policía Ministerial
+                const policiasMinisteriales = data.filter(poli => poli.Categoria === 3);
+                setPolicias(policiasMinisteriales);
+            } else {
+                setError('Falló en buscar los policias');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError('Se produjo un error al buscar policias');
+        }
+    };
+
+    const handleShowPolicias = () => {
+        if (!showTable) {
+            fetchPolicias();
+        }
+        setShowTable(!showTable);
+    };
+    const getCategoria = (categoria) => {
+        switch (categoria) {
+            case 3: return 'Policia Ministerial';
+            default: return 'Desconocido';
         }
     };
 
@@ -50,7 +83,7 @@ const InsertarInvestigacionView = () => {
                 </div>
 
                 <div className="mb-3">
-                    <label htmlFor="codigoCaso" className="form-label">Código del Caso:</label>
+                    <label htmlFor="codigoCaso" className="form-label">Caso:</label>
                     <select
                         id="Codigo_Caso"
                         className="form-control"
@@ -74,12 +107,45 @@ const InsertarInvestigacionView = () => {
 
                 <button type="submit" className="btn btn-primary">Insertar Investigación</button>
             </form>
-            <button
-                onClick={() => navigate('/admin')}
-                className="btn btn-secondary mt-3"
-            >
-                Regresar
-            </button>
+            <div className="d-flex justify-content-between mt-3">
+                 <button
+                    onClick={handleShowPolicias}
+                    className="btn btn-primary mt-3"
+                 >
+                    {showTable ? 'Ocultar Policías Registrados' : 'Ver Policías Registrados'}
+                </button>
+                <button
+                    onClick={() => navigate('/admin')}
+                    className="btn btn-secondary mt-3"
+                >
+                    Regresar
+                </button>
+            </div>
+            <div className="row">
+                {showTable && (
+                    <div className="col-md-6 mt-4">
+                        <h3>Policías Registrados</h3>
+                        <table className="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>RFC</th>
+                                    <th>Nombre</th>
+                                    <th>Categoria</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {policias.map((poli, index) => (
+                                    <tr key={index}>
+                                        <td>{poli.RFC}</td>
+                                        <td>{poli.Nombre}</td>
+                                        <td>{getCategoria(poli.Categoria)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

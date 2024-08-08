@@ -8,6 +8,10 @@ const AddUserView = () => {
     const [role, setRole] = useState('');
     const [name, setName] = useState('');
     const [error, setError] = useState('');
+    const [showTable, setShowTable] = useState(false); 
+    const [policias, setPolicias] = useState([]);
+    const [users, setusers] = useState([]);
+    const [showTable2, setShowTable2] = useState(false); 
 
     const navigate = useNavigate();  // Hook para la navegación
 
@@ -51,7 +55,68 @@ const AddUserView = () => {
             setError('An error occurred while adding the user');
         }
     };
+    
+    const fetchPolicias = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/addpoli/policias');
+            const data = await response.json();
 
+            if (response.ok) {
+                setPolicias(data);
+            } else {
+                setError('Falló en buscar los policias');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError('se produjo un error al buscar policias');
+        }
+    };
+
+    const handleShowPolicias = () => {
+        if (!showTable) {
+            fetchPolicias();
+        }
+        setShowTable(!showTable);
+    };
+    const getCategoria = (categoria) => {
+        switch (categoria) {
+            case 1: return 'Policia Municipal';
+            case 2: return 'Policia Estatal';
+            case 3: return 'Policia Ministerial';
+            case 4: return 'Policia Vial';
+            case 5: return 'Policia Turistica';
+            case 6: return 'Policia Auxiliar';
+            case 7: return 'Administrador';
+            default: return 'Desconocido';
+        }
+    };
+    const fetchUsers = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/add/users');
+            const data = await response.json();
+
+            if (response.ok) {
+                setusers(data);
+            } else {
+                setError('Falló en buscar usuarios');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError('Se produjo un error al buscar usuarios.');
+        }
+    };
+    const handleShowUsers = () => {
+        if (!showTable2) {
+            fetchUsers();
+        }
+        setShowTable2(!showTable2);
+    };
+    const getcargo = (categoria) => {
+        switch (categoria) {
+            case 1: return 'Administrador';
+            case 2: return 'Policia';
+        }
+    };
     return (
         <div className="container mt-4">
             <h2 className="mb-4">Agregación de Usuarios</h2>
@@ -87,7 +152,7 @@ const AddUserView = () => {
                     >
                         <option value="">Select Role</option>
                         <option value="1">Administrator</option>
-                        <option value="2">Police</option>
+                        <option value="2">Policia</option>
                     </select>
                 </div>
                 <div className="mb-3">
@@ -102,12 +167,75 @@ const AddUserView = () => {
                 </div>
                 <button type="submit" className="btn btn-primary">Agregar Usuario</button>
             </form>
-            <button
-                onClick={() => navigate('/admin')}
-                className="btn btn-secondary mt-3"
-            >
-                Regresar
-            </button>
+            <div className="d-flex justify-content-between mt-3">
+                <button
+                    onClick={handleShowPolicias}
+                    className="btn btn-primary mt-3"
+                >
+                    {showTable ? 'Ocultar Policías Registrados' : 'Ver Policías Registrados'}
+                </button>
+                <button
+                        onClick={handleShowUsers}
+                        className="btn btn-primary mt-3"
+                    >
+                        {showTable2 ? 'Ocultar Usuarios Registradas' : 'Ver Usuarios Registradas'}
+                </button>
+                
+                <button
+                    onClick={() => navigate('/admin')}
+                    className="btn btn-secondary mt-3"
+                >
+                    Regresar
+                </button>
+            </div>
+            <div className="row">
+                {showTable && (
+                    <div className="col-md-6 mt-4">
+                        <h3>Policías Registrados</h3>
+                        <table className="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>RFC</th>
+                                    <th>Nombre</th>
+                                    <th>Categoria</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {policias.map((poli, index) => (
+                                    <tr key={index}>
+                                        <td>{poli.RFC}</td>
+                                        <td>{poli.Nombre}</td>
+                                        <td>{getCategoria(poli.Categoria)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+                {showTable2 && (
+                    <div className="col-md-6 mt-4">
+                        <h3>Usuarios Registrados</h3>
+                        <table className="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Cargo</th>
+                                    <th>Nombre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {users.map((user, index) => (
+                                    <tr key={index}>
+                                        <td>{user.usuario}</td>
+                                        <td>{getcargo(user.id_cargo)}</td>
+                                        <td>{user.nombre}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

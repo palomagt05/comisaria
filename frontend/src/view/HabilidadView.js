@@ -8,6 +8,12 @@ const InsertarHabilidadView = () => {
     const [habilidad, setHabilidad] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [armas, setArmas] = useState([]);
+    const [showTable, setShowTable] = useState(false); 
+    const [policias, setPolicias] = useState([]);
+    const [showTable2, setShowTable2] = useState(false); 
+
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -28,6 +34,63 @@ const InsertarHabilidadView = () => {
             }
         } catch (error) {
             setError('Error al insertar la habilidad');
+        }
+    };
+  const fetchArmas = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/addarma/arma');
+            const data = await response.json();
+
+            if (response.ok) {
+                setArmas(data);
+            } else {
+                setError('Falló en buscar armas');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError('Se produjo un error al buscar armas.');
+        }
+    };
+    const handleShowArmas = () => {
+        if (!showTable2) {
+            fetchArmas();
+        }
+        setShowTable2(!showTable2);
+    };
+
+    const fetchPolicias = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/addpoli/policias');
+            const data = await response.json();
+
+            if (response.ok) {
+                setPolicias(data);
+            } else {
+                setError('Falló en buscar los policias');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError('se produjo un error al buscar policias');
+        }
+    };
+
+    const handleShowPolicias = () => {
+        if (!showTable) {
+            fetchPolicias();
+        }
+        setShowTable(!showTable);
+    };
+
+    const getCategoria = (categoria) => {
+        switch (categoria) {
+            case 1: return 'Policia Municipal';
+            case 2: return 'Policia Estatal';
+            case 3: return 'Policia Ministerial';
+            case 4: return 'Policia Vial';
+            case 5: return 'Policia Turistica';
+            case 6: return 'Policia Auxiliar';
+            case 7: return 'Administrador';
+            default: return 'Desconocido';
         }
     };
 
@@ -88,12 +151,73 @@ const InsertarHabilidadView = () => {
 
                 <button type="submit" className="btn btn-primary">Insertar Habilidad</button>
             </form>
-            <button
-                onClick={() => navigate('/admin')}
-                className="btn btn-secondary mt-3"
-            >
-                Regresar
-            </button>
+            <div className="d-flex justify-content-between mt-3">
+                <button
+                    onClick={handleShowPolicias}
+                    className="btn btn-primary mt-3"
+                >
+                    {showTable ? 'Ocultar Policías Registrados' : 'Ver Policías Registrados'}
+                </button>
+                <button
+                        onClick={handleShowArmas}
+                        className="btn btn-primary mt-3"
+                    >
+                        {showTable2 ? 'Ocultar Armas Registradas' : 'Ver Armas Registradas'}
+                </button>
+                
+                <button
+                    onClick={() => navigate('/admin')}
+                    className="btn btn-secondary mt-3"
+                >
+                    Regresar
+                </button>
+            </div>
+            <div className="row">
+                {showTable && (
+                    <div className="col-md-6 mt-4">
+                        <h3>Policías Registrados</h3>
+                        <table className="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>RFC</th>
+                                    <th>Nombre</th>
+                                    <th>Categoria</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {policias.map((poli, index) => (
+                                    <tr key={index}>
+                                        <td>{poli.RFC}</td>
+                                        <td>{poli.Nombre}</td>
+                                        <td>{getCategoria(poli.Categoria)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+                {showTable2 && (
+                    <div className="col-md-6 mt-4">
+                        <h3>Armas Registradas</h3>
+                        <table className="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Clase</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {armas.map((arma, index) => (
+                                    <tr key={index}>
+                                        <td>{arma.Codigo}</td>
+                                        <td>{arma.Clase}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
