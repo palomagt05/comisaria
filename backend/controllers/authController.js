@@ -6,7 +6,6 @@ const secretKey = 'KKMJPKJAY';
 
 const login = async (req, res) => {
     const { usuario, contrasena } = req.body;
-    console.log('Datos recibidos en el backend:', { usuario, contrasena });
 
     try {
         const [rows] = await db.query('SELECT * FROM users WHERE usuario = ?', [usuario]);
