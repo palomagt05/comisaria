@@ -61,16 +61,16 @@ const AdminView = () => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link>Perfil</Nav.Link>
                             <Nav.Link onClick={handleAddPoli}>Agregar Policías</Nav.Link>
-                            <Nav.Link onClick={handleAddUser}>Agregar Usuarios</Nav.Link>
-                            <Nav.Link onClick={handleAddArma}>Agregar Armas</Nav.Link>
-                            <Nav.Link onClick={handleAddDelincuente}>Agregar Delincuentes</Nav.Link>
-                            <Nav.Link onClick={handleAssingDelincuente}>Asignacion de Calabozo</Nav.Link>
-                            <Nav.Link onClick={handleCasoDelincuente}>Asignacion de Juzgado</Nav.Link>
-                            <Nav.Link onClick={handleHabilidad}>Asignacion de Habilidad Con Armas</Nav.Link>
-                            <Nav.Link onClick={handleinvestigacion}>Investigación</Nav.Link>
                             <Nav.Link onClick={handlejefe}>Asignación de Jefe</Nav.Link>
+                            <Nav.Link onClick={handleAddUser}>Agregar Usuarios</Nav.Link>
+                            <Nav.Link onClick={handleAddArma}>Agregar Armas</Nav.Link> 
+                            <Nav.Link onClick={handleHabilidad}>Habilidad Con Armas</Nav.Link>
+                            <Nav.Link onClick={handleAddDelincuente}>Agregar Delincuentes</Nav.Link>
+                            <Nav.Link onClick={handleAssingDelincuente}>Asignación de Calabozo</Nav.Link>
+                            <Nav.Link onClick={handleCasoDelincuente}>Asignación de Juzgado</Nav.Link>
+                            <Nav.Link onClick={handleinvestigacion}>Investigación</Nav.Link>
+
 
                         </Nav>
                         <Button variant="outline-light" onClick={handleLogout}>Cerrar Sesión</Button>
