@@ -13,7 +13,7 @@ const AddArmaView = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(''); // Limpiar mensajes de error
+        setError(''); 
 
         const newUser = {
             codigo,
@@ -57,11 +57,11 @@ const AddArmaView = () => {
             if (response.ok) {
                 setArmas(data);
             } else {
-                setError('Failed to fetch armas');
+                setError('Falló en buscar armas');
             }
         } catch (error) {
             console.error('Error:', error);
-            setError('An error occurred while fetching armas');
+            setError('Se produjo un error al buscar armas.');
         }
     };
     const handleShowArmas = () => {
@@ -115,7 +115,7 @@ const AddArmaView = () => {
             <div className="d-flex justify-content-between mt-3">
                 <button
                     onClick={handleShowArmas}
-                    className="btn btn-info mt-3"
+                    className="btn btn-primary mt-3"
                 >
                      {showTable ? 'Ocultar Armas Registradas' : 'Ver Armas Registradas'}
                 </button>
