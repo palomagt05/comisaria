@@ -1,5 +1,15 @@
-const pool = require('../database');
-const bcrypt = require('bcrypt');
+const crypto = require('crypto');
+const connection = require('../database');
+
+// Función para desencriptar datos
+const decrypt = (encryptedData, iv, key) => {
+    const algorithm = 'aes-256-cbc';
+    const decipher = crypto.createDecipheriv(algorithm, Buffer.from(key, 'hex'), Buffer.from(iv, 'hex'));
+    let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+
+    return decrypted;
+};
 
 const assignDelincuenteToCalabozo = async (req, res) => {
     const { CURP_Delincuente, Codigo_Calabozo } = req.body;
@@ -10,16 +20,16 @@ const assignDelincuenteToCalabozo = async (req, res) => {
 
     try {
         // Buscar el CURP encriptado del delincuente
-        const findDelincuenteQuery = 'SELECT CURP FROM delincuentes';
-        const [delincuentes] = await pool.query(findDelincuenteQuery);
+        const findDelincuenteQuery = 'SELECT CURP, iv_curp, llave_curp FROM delincuentes';
+        const [delincuentes] = await connection.execute(findDelincuenteQuery);
 
         // Verificar si algún CURP desencriptado coincide con el CURP proporcionado
         let delincuenteFound = false;
         let delincuenteCURP;
 
         for (const delincuente of delincuentes) {
-            const match = await bcrypt.compare(CURP_Delincuente, delincuente.CURP);
-            if (match) {
+            const decryptedCURP = decrypt(delincuente.CURP, delincuente.iv_curp, delincuente.llave_curp);
+            if (decryptedCURP === CURP_Delincuente) {
                 delincuenteFound = true;
                 delincuenteCURP = delincuente.CURP;
                 break;
@@ -31,7 +41,7 @@ const assignDelincuenteToCalabozo = async (req, res) => {
         }
 
         // Asignar el delincuente al calabozo usando el CURP encriptado
-        const result = await pool.query('INSERT INTO delincuente_calabozo (CURP_Delincuente, Codigo_Calabozo) VALUES (?, ?)', [delincuenteCURP, Codigo_Calabozo]);
+        const result = await connection.execute('INSERT INTO delincuente_calabozo (CURP_Delincuente, Codigo_Calabozo) VALUES (?, ?)', [delincuenteCURP, Codigo_Calabozo]);
         return res.status(201).json({ message: 'Delincuente asignado al calabozo exitosamente', result });
     } catch (error) {
         console.error(error);
