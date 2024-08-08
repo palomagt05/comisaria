@@ -40,11 +40,11 @@ const AddPoliView = () => {
                 navigate('/admin/add-poli', { replace: true });
                 window.location.reload(); // Recargar la página
             } else {
-                setError(result.message || 'Failed to add user');
+                setError(result.message || 'Fallo al agregar usuario');
             }
         } catch (error) {
             console.error('Error:', error);
-            setError('An error occurred while adding the user');
+            setError('Se produjo un error al agregar el usuario');
         }
     };
 
