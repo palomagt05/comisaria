@@ -1,5 +1,28 @@
+const crypto = require('crypto');
 const pool = require('../database');
-const bcrypt = require('bcrypt');
+
+// Función para cifrar un texto
+const encrypt = (text) => {
+    const algorithm = 'aes-256-cbc';
+    const key = crypto.randomBytes(32); // 32 bytes para AES-256
+    const iv = crypto.randomBytes(16);  // 16 bytes para el IV
+
+    const cipher = crypto.createCipheriv(algorithm, key, iv);
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+
+    return { iv: iv.toString('hex'), encryptedData: encrypted, key: key.toString('hex') };
+};
+
+// Función para descifrar un texto cifrado
+const decrypt = (encryptedData, iv, key) => {
+    const algorithm = 'aes-256-cbc';
+    const decipher = crypto.createDecipheriv(algorithm, Buffer.from(key, 'hex'), Buffer.from(iv, 'hex'));
+    let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+
+    return decrypted;
+};
 
 const insertarInvestigacion = async (req, res) => {
     const { rfcPolicia, codigoCaso } = req.body;
@@ -9,17 +32,17 @@ const insertarInvestigacion = async (req, res) => {
     }
 
     try {
-        // Buscar el RFC encriptado de los policías en la base de datos
-        const findPoliciaQuery = 'SELECT RFC FROM policias';
+        // Buscar los RFCs encriptados de los policías en la base de datos
+        const findPoliciaQuery = 'SELECT RFC, iv, llave FROM policias';
         const [policias] = await pool.query(findPoliciaQuery);
 
-        // Verificar si algún RFC encriptado coincide con el RFC proporcionado
+        // Verificar si algún RFC descifrado coincide con el RFC proporcionado
         let policiaFound = false;
         let rfcEncriptado;
 
         for (const policia of policias) {
-            const match = await bcrypt.compare(rfcPolicia, policia.RFC);
-            if (match) {
+            const decryptedRFC = decrypt(policia.RFC, policia.iv, policia.llave);
+            if (decryptedRFC === rfcPolicia) {
                 policiaFound = true;
                 rfcEncriptado = policia.RFC;
                 break;
