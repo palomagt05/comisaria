@@ -1,0 +1,4 @@
+justicar
+herramientas- funciones , ventajas, caracteristicas.
+herramientas basicas
+Al realizar este reporte y actividad, me enseño a poder utilizar git hub que no lo habia utilizado, al igual las funciones que te da utilizar esta plaforma, como poder trabajar con un equipo de trabajo de manera de distancia, con los comits y los comentarios de cada cambios que se hace dentro del proyecto
